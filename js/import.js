@@ -2,7 +2,7 @@
 const resourceMap = {
     'layout': { 
         html: '../basic/layout.html',
-        css: ['../../basic/css/common.css', '../basic/css/header.css', '../basic/css/footer.css']
+        css: ['../basic/css/common.css', '../basic/css/header.css', '../basic/css/footer.css']
     },
     'header': { 
         html: '../basic/header.html',
