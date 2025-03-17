@@ -2,7 +2,11 @@
 #mainCategorySectionInner .main-category-list-wrapper { width: 100%; position: absolute; bottom: 50px; display: flex; justify-content: space-between; }  
 #mainCategorySectionInner .main-category-list-wrapper li a { font-family: 'esamanru'; font-size: 12px; font-weight: 800; color: #fff; }  
 
-#mainCategorySectionInner .main-category-content-wrapper { position: absolute; bottom: 90px; }
+#mainCategorySectionInner .main-category-content-wrapper { position: absolute; bottom: 50px; left: -250px; }
 #mainCategorySectionInner .main-category-content-wrapper li { display: none; flex-direction: column; justify-content: space-between; align-items: center; border: 1px solid #fff; padding: 10px 0; width: 240px; height: 150px; }
 #mainCategorySectionInner .main-category-content-wrapper li p { font-family: 'esamanru'; font-size: 8px; font-weight: 400; color: #fff; padding: 5px 10px; text-align: center; line-height: 1.5; }  
 #mainCategorySectionInner .main-category-content-wrapper li button { font-family: 'esamanru'; font-size: 12px; font-weight: 400; color: #fff; padding: 5px 10px; background-color: #00b300; text-align: center; width: 150px; line-height: 1; }  
+
+@media (max-width: 840px) {
+    #mainCategorySectionInner .main-category-content-wrapper { bottom: 90px; left: 0; }
+}
