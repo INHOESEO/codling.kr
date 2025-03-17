@@ -15,6 +15,10 @@ const resourceMap = {
     'mainThreedSection': { 
         html: '../section/main/main-threed-section.html',
         css: ['../section/css/main-threed-section.css']
+    },
+    'mainCategorySection': { 
+        html: '../section/main/main-category-section.html',
+        css: ['../section/css/main-category-section.css']
     }
 };
 
@@ -209,10 +213,8 @@ async function initLayout() {
         // 다른 섹션 로드 (병렬로)
         console.time('섹션 로드 시간');
         const sectionPromises = [
-            'mainBannerSection',
-            'mainWhyusSection',
             'mainThreedSection',
-            'counselFormSection'
+            'mainCategorySection'
         ]
         .filter(id => document.getElementById(id) !== null) // 페이지에 존재하는 섹션만 로드
         .map(id => loadHTML(id, resourceMap[id].html));

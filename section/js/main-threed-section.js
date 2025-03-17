@@ -75,6 +75,30 @@ function initThreeJsScene() {
 
     // Three.js 변수 초기화
     let scene, camera, renderer, controls, light;
+    
+    // 메뉴 관련 변수
+    const menuItems = [
+        '.main-about-nav',
+        '.main-brand-nav',
+        '.main-notice-nav',
+        '.main-recruit-nav',
+        '.main-contact-nav'
+    ];
+    const contentItems = [
+        '.main-about-summary',
+        '.main-brand-summary',
+        '.main-notice-summary',
+        '.main-recruit-summary',
+        '.main-contact-summary'
+    ];
+    let currentMenuIndex = 0; // 기본적으로 ABOUT이 활성화되도록 설정
+    
+    // 회전 각도 관련 변수
+    let lastRotationY = 0;
+    const rotationThreshold = 0.5; // 메뉴 전환을 위한 최소 회전 각도 (더 큰 값으로 설정하여 천천히 변환)
+    
+    // 자동 메뉴 변경 인터벌
+    let autoMenuChangeInterval = null;
 
     // 씬 생성
     scene = new THREE.Scene();
@@ -109,24 +133,96 @@ function initThreeJsScene() {
     light.position.set(0, 10, 10);
     scene.add(light);
 
+    // 메뉴 활성화 함수
+    function activateMenuItem(index) {
+        // 순환 구조 (무한 루프) 구현
+        if (index < 0) index = menuItems.length - 1; // 처음 항목에서 왼쪽으로 가면 마지막 항목으로
+        if (index >= menuItems.length) index = 0; // 마지막 항목에서 오른쪽으로 가면 처음 항목으로
+        
+        // 현재 활성화된 메뉴 항목이 이미 선택된 경우 중복 처리 방지
+        if (currentMenuIndex === index) return;
+        
+        // 모든 메뉴 항목에서 활성 클래스 제거
+        menuItems.forEach((selector) => {
+            const element = document.querySelector(selector);
+            if (element) element.classList.remove('active');
+        });
+        
+        // 선택된 메뉴 항목에 활성 클래스 추가
+        const selectedElement = document.querySelector(menuItems[index]);
+        if (selectedElement) selectedElement.classList.add('active');
+        
+        // 모든 콘텐츠 항목 숨기기
+        contentItems.forEach((selector) => {
+            const element = document.querySelector(selector);
+            if (element) element.style.display = 'none';
+        });
+        
+        // 선택된 콘텐츠 항목 표시
+        const selectedContent = document.querySelector(contentItems[index]);
+        if (selectedContent) selectedContent.style.display = 'flex';
+        
+        currentMenuIndex = index;
+    }
+
     // 컨트롤 추가
     if (typeof THREE.OrbitControls !== 'undefined') {
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
+        
+        // 컨트롤 제약 설정 (모든 회전 허용, 하지만 Y축 회전만 메뉴 변경에 영향)
+        controls.enableRotate = true;
+        // 수직 회전(상하 드래그)은 제한하지 않음
+        
+        // 드래그 시작 시 이벤트
+        controls.addEventListener('start', function() {
+            lastRotationY = controls.getAzimuthalAngle();
+            // 드래그 시작 시 자동 회전 일시 중지
+            controls.autoRotate = false;
+        });
+        
+        // 드래그 종료 시 이벤트
+        controls.addEventListener('end', function() {
+            // 드래그 종료 후 자동 회전 다시 활성화
+            setTimeout(() => {
+                controls.autoRotate = true;
+            }, 1000); // 1초 후 자동 회전 다시 시작
+        });
+        
+        // 드래그 중 이벤트
+        controls.addEventListener('change', function() {
+            const currentRotationY = controls.getAzimuthalAngle();
+            const rotationDelta = currentRotationY - lastRotationY;
+            
+            // 회전 방향에 따라 메뉴 전환 (누적 회전으로 변경)
+            if (Math.abs(rotationDelta) > rotationThreshold) {
+                // 오른쪽으로 드래그 (카메라가 왼쪽으로 회전)
+                if (rotationDelta < 0) {
+                    activateMenuItem(currentMenuIndex + 1);
+                }
+                // 왼쪽으로 드래그 (카메라가 오른쪽으로 회전)
+                else if (rotationDelta > 0) {
+                    activateMenuItem(currentMenuIndex - 1);
+                }
+                
+                // 회전 임계값을 넘으면 마지막 회전 위치 업데이트 
+                lastRotationY = currentRotationY;
+            }
+        });
     } else {
         console.warn('OrbitControls를 사용할 수 없습니다.');
     }
 
-    // 애니메이션 함수 수정
+    // 애니메이션 함수
     function animate() {
         requestAnimationFrame(animate);
         
-        if (controls) controls.update(); // 여기서 자동 회전이 적용됨
+        if (controls) controls.update();
         renderer.render(scene, camera);
     }
 
-    // GLTF 모델 로드 시도
+    // GLTF 모델 로드
     if (typeof THREE.GLTFLoader !== 'undefined') {
         const loader = new THREE.GLTFLoader();
         loader.load(
@@ -153,10 +249,10 @@ function initThreeJsScene() {
                 gltf.scene.position.z = -center.z;
                 
                 // 카메라를 45도 각도로 배치
-                camera.position.z = cameraZ * 0.3;
-                camera.position.y = cameraZ * 0.5; // y축으로 올려서 비스듬히 내려다보는 각도
-                camera.position.x = cameraZ * 0.5; // x축으로도 약간 이동하여 대각선 시점
-                camera.lookAt(0, 0, 0); // 원점을 바라보도록 설정
+                camera.position.z = cameraZ * 0.5;
+                camera.position.x = cameraZ * 0.5;
+                camera.position.y = cameraZ * 0.5;
+                camera.lookAt(0, 0, 0);
                 
                 // 카메라 업데이트
                 const minZ = box.min.z;
@@ -168,10 +264,13 @@ function initThreeJsScene() {
                 // 조명 위치 조정
                 light.position.set(center.x, center.y, center.z + cameraZ);
                 
+                // 초기 메뉴 항목 활성화
+                activateMenuItem(1);
+                
                 // 자동 회전 활성화
                 if (controls) {
                     controls.autoRotate = true;
-                    controls.autoRotateSpeed = 4.0; // 회전 속도 (기본값은 2.0)
+                    controls.autoRotateSpeed = 2.0; // 회전 속도 설정 (기본값: 2.0)
                 }
             },
             function (xhr) {
@@ -183,7 +282,6 @@ function initThreeJsScene() {
         );
     } else {
         console.error('GLTFLoader를 사용할 수 없습니다.');
-        // 애니메이션은 여전히 실행 (카메라 컨트롤을 위해)
         animate();
     }
 
@@ -196,6 +294,21 @@ function initThreeJsScene() {
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
     });
+    
+    // CSS 추가 - 활성화된 메뉴 항목 스타일 및 콘텐츠 표시/숨김
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .main-category-list.active a {
+            color: #00ff00 !important;
+            font-weight: bold;
+        }
+        
+        /* 초기에 모든 콘텐츠 숨기기 */
+        .main-category-content {
+            display: none;
+        }
+    `;
+    document.head.appendChild(style);
     
     // 초기 애니메이션 시작
     animate();
