@@ -101,12 +101,6 @@ function initThreeJsScene() {
     
     container.appendChild(renderer.domElement);
 
-    // 테스트용 큐브 추가 (디버깅용)
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
     // 조명 추가
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
@@ -124,15 +118,11 @@ function initThreeJsScene() {
         console.warn('OrbitControls를 사용할 수 없습니다.');
     }
 
-    // 애니메이션 함수
+    // 애니메이션 함수 수정
     function animate() {
         requestAnimationFrame(animate);
         
-        // 큐브 회전 (디버깅용)
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-        
-        if (controls) controls.update();
+        if (controls) controls.update(); // 여기서 자동 회전이 적용됨
         renderer.render(scene, camera);
     }
 
@@ -143,9 +133,6 @@ function initThreeJsScene() {
             '../source/threed/greenapple/greenapple.gltf',
             function (gltf) {
                 console.log('모델 로드 성공!');
-                
-                // 테스트 큐브 제거
-                scene.remove(cube);
                 
                 // 모델 추가
                 scene.add(gltf.scene);
@@ -165,7 +152,11 @@ function initThreeJsScene() {
                 gltf.scene.position.y = -center.y;
                 gltf.scene.position.z = -center.z;
                 
-                camera.position.z = cameraZ * 1.5;
+                // 카메라를 45도 각도로 배치
+                camera.position.z = cameraZ * 0.3;
+                camera.position.y = cameraZ * 0.5; // y축으로 올려서 비스듬히 내려다보는 각도
+                camera.position.x = cameraZ * 0.5; // x축으로도 약간 이동하여 대각선 시점
+                camera.lookAt(0, 0, 0); // 원점을 바라보도록 설정
                 
                 // 카메라 업데이트
                 const minZ = box.min.z;
@@ -176,6 +167,12 @@ function initThreeJsScene() {
                 
                 // 조명 위치 조정
                 light.position.set(center.x, center.y, center.z + cameraZ);
+                
+                // 자동 회전 활성화
+                if (controls) {
+                    controls.autoRotate = true;
+                    controls.autoRotateSpeed = 4.0; // 회전 속도 (기본값은 2.0)
+                }
             },
             function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% 로드됨');
@@ -186,7 +183,7 @@ function initThreeJsScene() {
         );
     } else {
         console.error('GLTFLoader를 사용할 수 없습니다.');
-        // 그래도 애니메이션은 실행 (큐브라도 보여주기 위해)
+        // 애니메이션은 여전히 실행 (카메라 컨트롤을 위해)
         animate();
     }
 
