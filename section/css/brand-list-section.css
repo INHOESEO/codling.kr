@@ -1,0 +1,15 @@
+#brandListSectionInner { font-family: 'esamanru'; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-header { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #fff; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-header > h3 { color: #fff; font-size: 25px; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-header .brand-img-box { display: inline-flex; width: 50px; height: 50px; background: #003fb5; padding: 5px; border-radius: 5px; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-header .brand-img-box > img { object-fit: contain; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-body > ul { padding: 10px 0; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-body > ul > li { color: #fff; font-weight: lighter; padding: 10px; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-bottom { display: flex; align-items: center; justify-content: flex-end; gap: 30px; padding: 10px; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-bottom > p { color: #fff; }
+#brandListSectionInner .brand-list-wrapper > ul > li > .brand-bottom > a { color: #fff; font-size: 11px; font-weight: lighter; text-decoration: underline; text-align: center; }
+
+@media ( max-width: 768px ) {
+    #brandListSectionInner .brand-list-wrapper > ul > li > .brand-body > ul > li { font-size: 12px; }
+
+}

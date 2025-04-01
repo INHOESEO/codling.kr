@@ -1,0 +1,3 @@
+#aboutBannerSectionInner > div { display: flex; flex-direction: column; align-items: center; padding: 80px 0 30px; }
+#aboutBannerSectionInner > div > img { width: 100%; }
+#aboutBannerSectionInner > div > img:first-child { max-width: 666px; }

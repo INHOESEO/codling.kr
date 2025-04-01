@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
             y: Math.random() * (window.innerHeight - moth.height)
         };
         
-        // 속도 벡터 (명확한 속도로 설정)
+        // 속도 벡터 (처음에는 항상 우측으로 이동, 속도 절반으로 감소)
         let velocity = {
-            x: Math.random() > 0.5 ? 3 : -3,  // 왼쪽 또는 오른쪽으로 이동
-            y: Math.random() > 0.5 ? 2 : -2   // 위 또는 아래로 이동
+            x: 1.5 + Math.random(),  // 항상 우측으로 이동 (1.5~2.5 사이 속도)
+            y: Math.random() > 0.5 ? 1 : -1   // 위 또는 아래로 이동은 랜덤, 속도 절반
         };
         
         // 이미지 좌우 반전 상태 (기본은 정방향)
@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 이미지 좌우 반전
                 flippedHorizontally = !flippedHorizontally;
                 applyTransform();
-                console.log("왼쪽 가장자리 대칭 이동 - 이미지 좌우 반전");
             } 
             // 오른쪽 경계 확인
             else if (nextX >= boundaries.right) {
@@ -69,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 이미지 좌우 반전
                 flippedHorizontally = !flippedHorizontally;
                 applyTransform();
-                console.log("오른쪽 가장자리 대칭 이동 - 이미지 좌우 반전");
             } 
             else {
                 // 경계 내부라면 다음 위치로 이동
@@ -82,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 position.y = boundaries.top;
                 // 방향 반사 (이미지 반전 없음)
                 velocity.y = Math.abs(velocity.y);
-                console.log("위쪽 가장자리 대칭 이동 - 방향만 변경");
             } 
             // 아래쪽 경계 확인
             else if (nextY >= boundaries.bottom) {
@@ -90,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 position.y = boundaries.bottom;
                 // 방향 반사 (이미지 반전 없음)
                 velocity.y = -Math.abs(velocity.y);
-                console.log("아래쪽 가장자리 대칭 이동 - 방향만 변경");
             } 
             else {
                 // 경계 내부라면 다음 위치로 이동
@@ -103,19 +99,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 velocity.x += (Math.random() * 0.6) - 0.3;
                 velocity.y += (Math.random() * 0.6) - 0.3;
                 
-                // 속도 범위 제한 (최소 1, 최대 5)
+                // 속도 범위 제한 (최소 0.5, 최대 2.5)
                 // x축 속도 제한
-                if (Math.abs(velocity.x) < 1) {
-                    velocity.x = 1 * Math.sign(velocity.x) || 1; // 0인 경우 1로 설정
-                } else if (Math.abs(velocity.x) > 5) {
-                    velocity.x = 5 * Math.sign(velocity.x);
+                if (Math.abs(velocity.x) < 0.5) {
+                    velocity.x = 0.5 * Math.sign(velocity.x) || 0.5; // 0인 경우 0.5로 설정
+                } else if (Math.abs(velocity.x) > 2.5) {
+                    velocity.x = 2.5 * Math.sign(velocity.x);
                 }
                 
                 // y축 속도 제한
-                if (Math.abs(velocity.y) < 1) {
-                    velocity.y = 1 * Math.sign(velocity.y) || 1; // 0인 경우 1로 설정
-                } else if (Math.abs(velocity.y) > 5) {
-                    velocity.y = 5 * Math.sign(velocity.y);
+                if (Math.abs(velocity.y) < 0.5) {
+                    velocity.y = 0.5 * Math.sign(velocity.y) || 0.5; // 0인 경우 0.5로 설정
+                } else if (Math.abs(velocity.y) > 2.5) {
+                    velocity.y = 2.5 * Math.sign(velocity.y);
                 }
             }
             

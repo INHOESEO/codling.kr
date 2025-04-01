@@ -81,14 +81,14 @@ function initThreeJsScene() {
         '.main-about-nav',
         '.main-brand-nav',
         '.main-notice-nav',
-        '.main-recruit-nav',
+        '.main-member-nav',
         '.main-contact-nav'
     ];
     const contentItems = [
         '.main-about-summary',
         '.main-brand-summary',
         '.main-notice-summary',
-        '.main-recruit-summary',
+        '.main-member-summary',
         '.main-contact-summary'
     ];
     let currentMenuIndex = 0; // 기본적으로 ABOUT이 활성화되도록 설정

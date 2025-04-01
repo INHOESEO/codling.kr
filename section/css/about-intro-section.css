@@ -1,0 +1,21 @@
+#aboutIntroSectionInner .about-intro-wrapper { display: flex; justify-content: space-between; padding: 200px 0 0; }
+#aboutIntroSectionInner .about-intro-wrapper > p { font-size: 30px; color: #fff; font-weight: lighter; line-height: 1.5; }
+#aboutIntroSectionInner .about-intro-wrapper > p:first-child { font-size: 40px; }
+#aboutIntroSectionInner .about-intro-wrapper > p:nth-child(2) { margin-top: 100px; }
+#aboutIntroSectionInner .about-intro-wrapper > p:last-child { margin-top: 200px; }
+
+@media (max-width: 1024px) {
+    #aboutIntroSectionInner .about-intro-wrapper { flex-direction: column; padding: 100px 0 0; }
+    #aboutIntroSectionInner .about-intro-wrapper > p { font-size: 20px }
+    #aboutIntroSectionInner .about-intro-wrapper > p:first-child { font-size: 30px; }
+    #aboutIntroSectionInner .about-intro-wrapper > p:nth-child(2) { margin-top: 50px; }
+    #aboutIntroSectionInner .about-intro-wrapper > p:last-child { margin-top: 50px; }
+}
+
+@media (max-width: 460px) {
+    #aboutIntroSectionInner .about-intro-wrapper { padding: 50px 0 0; }
+    #aboutIntroSectionInner .about-intro-wrapper > p { font-size: 15px }
+    #aboutIntroSectionInner .about-intro-wrapper > p:first-child { font-size: 20px; }
+    #aboutIntroSectionInner .about-intro-wrapper > p:nth-child(2) { margin-top: 25px; }
+    #aboutIntroSectionInner .about-intro-wrapper > p:last-child { margin-top: 25px; }
+}

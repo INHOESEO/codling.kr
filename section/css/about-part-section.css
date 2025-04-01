@@ -1,0 +1,30 @@
+#aboutPartSectionInner .about-part-wrapper { display: flex; justify-content: space-between; width: 100%; background: #fff; padding: 4=220px 0 0; }
+#aboutPartSectionInner .about-part-wrapper .about-part-sw { width: 100%; position: relative; display: flex; align-items: flex-end; justify-content: flex-start; } 
+#aboutPartSectionInner .about-part-wrapper .about-part-design { width: 100%; position: relative; display: flex; align-items: flex-end; justify-content: flex-end; } 
+#aboutPartSectionInner .about-part-wrapper .about-part-sw > img { width: 100%; max-width: 770px; }
+#aboutPartSectionInner .about-part-wrapper .about-part-design > img { width: 100%; max-width: 798px; }
+#aboutPartSectionInner .about-part-wrapper > div > .about-part-info { text-align: left; position: absolute; top: 20%; display: flex; flex-direction: column; gap: 50px; }
+#aboutPartSectionInner .about-part-wrapper > div > .about-part-info > span { display: inline-block; content: ""; border: 10px solid #000; width: 69px; }
+#aboutPartSectionInner .about-part-wrapper > div > .about-part-info > h3 { font-size: 50px; font-weight: lighter; }
+#aboutPartSectionInner .about-part-wrapper > div > .about-part-info > p { font-size: 40px; font-weight: lighter; }
+#aboutPartSectionInner .about-part-wrapper > div > .sw-info { right: 10%; }
+#aboutPartSectionInner .about-part-wrapper > div > .design-info { left: 10%; }
+
+@media (max-width: 1400px) {
+    #aboutPartSectionInner .about-part-wrapper { padding: 0; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > h3 { font-size: 40px; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > p { font-size: 30px; }
+}
+
+@media (max-width: 1024px) {
+    #aboutPartSectionInner .about-part-wrapper { flex-direction: column; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > span { border: 6px solid #000; width: 40px; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > h3 { font-size: 30px; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > p { font-size: 20px; }
+}
+
+@media (max-width: 460px) {
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > span { border: 4px solid #000; width: 30px; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > h3 { font-size: 25px; }
+    #aboutPartSectionInner .about-part-wrapper > div > .about-part-info > p { font-size: 15px; }
+}

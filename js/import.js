@@ -1,24 +1,44 @@
 // CSS와 HTML 매핑 정보
 const resourceMap = {
-    'layout': { 
+    'layout': { //250201 생성
         html: '../basic/layout.html',
         css: ['../basic/css/common.css', '../basic/css/header.css', '../basic/css/footer.css']
     },
-    'header': { 
+    'header': { //250201 생성
         html: '../basic/header.html',
         css: ['../basic/css/header.css']
     },
-    'footer': { 
+    'footer': { //250201 생성
         html: '../basic/footer.html',
         css: ['../basic/css/footer.css']
     },
-    'mainThreedSection': { 
+    'mainThreedSection': { //250201 생성
         html: '../section/main/main-threed-section.html',
         css: ['../section/css/main-threed-section.css']
     },
-    'mainCategorySection': { 
+    'mainCategorySection': { //250301 생성
         html: '../section/main/main-category-section.html',
         css: ['../section/css/main-category-section.css']
+    },
+    'memberTeamSection': { //250401 생성
+        html: '../section/member/member-team-section.html',
+        css: ['../section/css/member-team-section.css']
+    },
+    'aboutBannerSection': { //250401 생성
+        html: '../section/about/about-banner-section.html', 
+        css: ['../section/css/about-banner-section.css']
+    },
+    'aboutIntroSection': { //250401 생성
+        html: '../section/about/about-intro-section.html', 
+        css: ['../section/css/about-intro-section.css']
+    },
+    'aboutPartSection': { //250401 생성
+        html: '../section/about/about-part-section.html', 
+        css: ['../section/css/about-part-section.css']
+    },
+    'brandListSection': { //250401 생성
+        html: '../section/brand/brand-list-section.html', 
+        css: ['../section/css/brand-list-section.css']
     }
 };
 
@@ -214,7 +234,12 @@ async function initLayout() {
         console.time('섹션 로드 시간');
         const sectionPromises = [
             'mainThreedSection',
-            'mainCategorySection'
+            'mainCategorySection',
+            'memberTeamSection',
+            'aboutBannerSection',
+            'aboutIntroSection',
+            'aboutPartSection',
+            'brandListSection'
         ]
         .filter(id => document.getElementById(id) !== null) // 페이지에 존재하는 섹션만 로드
         .map(id => loadHTML(id, resourceMap[id].html));

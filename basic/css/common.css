@@ -43,6 +43,16 @@ img {
     max-width: 1400px;
     margin: 0 auto;
 }
+@media (max-width: 1400px) {
+    #container { max-width: 98%; }
+}
+@media (max-width: 1024px) {
+    #container { max-width: 95%; }
+}
+@media (max-width: 768px) {
+    #container { max-width: 92%; }
+}
+
 
 /* 섹션 */
 .section-header { 
