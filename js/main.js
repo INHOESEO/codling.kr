@@ -1,9 +1,18 @@
-// codlingMoth 움직임 제어 스크립트
+// codlingMoth 움직임 제어 개선 스크립트
 document.addEventListener('DOMContentLoaded', function() {
+    // 이미지 요소 찾기
     const moth = document.getElementById('codlingMothGif');
+    
+    // 이미지 요소가 없으면 함수 종료
+    if (!moth) {
+        console.error('codlingMothGif 요소를 찾을 수 없습니다.');
+        return;
+    }
     
     // 이미지가 로드될 때까지 기다리기
     function setupMoth() {
+        console.log('나방 설정 시작');
+        
         // 초기 설정
         let position = {
             x: Math.random() * (window.innerWidth - moth.width),
@@ -20,23 +29,29 @@ document.addEventListener('DOMContentLoaded', function() {
         let flippedHorizontally = false;
         
         // moth의 초기 위치 및 스타일 설정
-        moth.style.position = 'absolute';
+        moth.style.position = 'fixed'; // absolute 대신 fixed 사용하여 스크롤과 무관하게 설정
         moth.style.left = position.x + 'px';
         moth.style.top = position.y + 'px';
         moth.style.zIndex = '1000'; // 다른 요소 위에 표시
         moth.style.transition = 'transform 0.1s ease-out'; // 부드러운 뒤집기 효과
         
-        // 경계 설정 - 정확히 화면 가장자리
+        // 디버그용 로그
+        console.log('초기 위치:', position);
+        console.log('이미지 크기:', moth.width, 'x', moth.height);
+        
+        // 경계 설정 - 화면의 실제 표시 영역
         function getBoundaries() {
+            // 실제 화면 표시 영역 사용 (fixed positioning에 맞춰서)
             return {
                 left: 0,
                 right: window.innerWidth - moth.width,
-                top: 0,
+                top: 0, 
                 bottom: window.innerHeight - moth.height
             };
         }
         
         let boundaries = getBoundaries();
+        console.log('계산된 경계:', boundaries);
         
         // 이미지 반전 적용 함수
         function applyTransform() {
@@ -130,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', function() {
             // 경계 다시 계산
             boundaries = getBoundaries();
+            console.log('리사이즈 후 경계 재계산:', boundaries);
             
             // 이미지가 화면을 벗어났으면 조정
             if (position.x > boundaries.right) {
@@ -141,10 +157,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 이미지가 이미 로드되었는지 확인
-    if (moth.complete) {
-        setupMoth();
-    } else {
-        moth.onload = setupMoth;
+    // 이미지 로드 확인 및 설정
+    function initMoth() {
+        // 이미지 로드 체크
+        if (moth.complete) {
+            console.log('이미지가 이미 로드됨');
+            setupMoth();
+        } else {
+            console.log('이미지 로드 대기 중...');
+            // 이미지가 로드되면 설정 시작
+            moth.onload = setupMoth;
+            
+            // 이미지 로드 실패 시 대비
+            moth.onerror = function() {
+                console.error('이미지 로드 실패');
+            };
+            
+            // 안전장치: 5초 후에도 로드가 안 되면 강제로 설정 시작
+            setTimeout(function() {
+                if (!moth.complete) {
+                    console.warn('이미지 로드 타임아웃, 강제 설정 시작');
+                    setupMoth();
+                }
+            }, 5000);
+        }
     }
+    
+    // 초기화 시작
+    initMoth();
 });
