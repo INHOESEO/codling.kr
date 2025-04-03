@@ -702,7 +702,7 @@ function addRotatingStyles() {
         /* 모바일 대응 */
         @media (max-width: 870px) {
             #mainCategorySectionInner .main-category-content-wrapper {
-                bottom: 90px;
+                bottom: 135px;
                 left: 0;
             }
             
